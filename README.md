@@ -172,6 +172,30 @@ python3 /path/to/blockbeat_monitor/scripts/blockbeats_monitor.py --config /path/
 - 生成日报
 - 推送 Telegram
 
+## Claude Code 使用
+
+如果你是在 Claude Code 里使用这个仓库，不需要安装 OpenClaw skill。直接把它当作普通 Python 项目运行即可。
+
+Claude Code 最常用的入口命令：
+
+```bash
+python3 scripts/blockbeats_monitor.py --config config.toml run-daily
+```
+
+如果只想抓数据：
+
+```bash
+python3 scripts/blockbeats_monitor.py --config config.toml ingest
+```
+
+如果只想生成日报、不推送 Telegram：
+
+```bash
+python3 scripts/blockbeats_monitor.py --config config.toml report --output report.md
+```
+
+Claude Code 兼容说明见 [CLAUDE.md](./CLAUDE.md)。
+
 ## 本地测试
 
 ```bash
