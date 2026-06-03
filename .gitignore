@@ -1,0 +1,11 @@
+# 本文件用于阻止敏感配置、本地数据库和运行产物进入 Git 仓库。
+config.toml
+data/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+__pycache__/
+.pytest_cache/
+.coverage
+.DS_Store

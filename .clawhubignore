@@ -1,0 +1,11 @@
+# 本文件用于发布到 ClawHub 时排除本地运行产生的数据、日志和缓存。
+data/
+config.toml
+tests/
+*.sqlite
+*.sqlite3
+*.db
+*.log
+__pycache__/
+.pytest_cache/
+.coverage
