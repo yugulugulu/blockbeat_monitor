@@ -172,6 +172,49 @@ python3 /path/to/blockbeat_monitor/scripts/blockbeats_monitor.py --config /path/
 - 生成日报
 - 推送 Telegram
 
+## Claude Code 使用
+
+如果你是在 Claude Code 里使用这个仓库，除了直接运行 Python 命令，还可以通过项目级 slash command 调用。
+
+Claude Code 项目级命令文件在：
+
+```text
+.claude/commands/blockbeats-monitor.md
+```
+
+对应 slash command 名称是：
+
+```text
+/blockbeats-monitor
+```
+
+常见调用示例：
+
+```text
+/blockbeats-monitor init-db
+/blockbeats-monitor ingest
+/blockbeats-monitor report
+/blockbeats-monitor report --output report.md
+/blockbeats-monitor send-telegram --text-file report.md
+/blockbeats-monitor run-daily
+```
+
+Claude Code 会把 `/blockbeats-monitor` 映射到底层 CLI：
+
+```bash
+python3 scripts/blockbeats_monitor.py --config config.toml ...
+```
+
+例如：
+
+- `/blockbeats-monitor run-daily` 等价于 `python3 scripts/blockbeats_monitor.py --config config.toml run-daily`
+- `/blockbeats-monitor ingest` 等价于 `python3 scripts/blockbeats_monitor.py --config config.toml ingest`
+- `/blockbeats-monitor report --output report.md` 等价于 `python3 scripts/blockbeats_monitor.py --config config.toml report --output report.md`
+
+如果新建命令后当前 Claude Code 会话里看不到 `/blockbeats-monitor`，通常需要重新打开当前仓库会话，让命令列表刷新。
+
+Claude Code 兼容说明见 [CLAUDE.md](./CLAUDE.md)。
+
 ## 本地测试
 
 ```bash
