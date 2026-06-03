@@ -1,8 +1,8 @@
-<!-- 本文件用于告诉 Claude Code 如何把本仓库当作普通项目使用，而不是 OpenClaw skill。 -->
+<!-- 本文件用于告诉 Claude Code 如何把本仓库当作项目级 slash command 和普通项目一起使用。 -->
 
 # BlockBeats Monitor For Claude Code
 
-这个仓库的核心能力在 `scripts/` 目录里，是一个普通 Python 项目。Claude Code 不需要理解 ClawHub 或 `SKILL.md` 才能使用它。
+这个仓库的核心能力在 `scripts/` 目录里，是一个普通 Python 项目。同时，这个仓库现在也提供 Claude Code 的项目级 slash command，用户可以直接通过 `/blockbeats-monitor` 调用。
 
 ## 项目目标
 
@@ -15,12 +15,14 @@
 ## Claude Code 使用原则
 
 - 把这个仓库当作普通代码仓库使用，不依赖 OpenClaw 的安装或触发机制。
+- 优先使用项目级 slash command：`/blockbeats-monitor`。
 - 优先运行 `scripts/blockbeats_monitor.py` 里的 CLI 命令。
 - 不要把真实的 `config.toml`、`data/` 目录或数据库文件提交到 Git。
 - 当用户要求“定时每天发日报”时，Claude Code 负责提供命令和调度建议；真正定时执行要靠外部调度器，例如 `cron`。
 
 ## 必看文件
 
+- `.claude/commands/blockbeats-monitor.md`：Claude Code slash command 定义
 - `scripts/blockbeats_monitor.py`：主入口 CLI
 - `scripts/blockbeats_client.py`：BlockBeats API 抓取
 - `scripts/db.py`：SQLite 入库与 canonical 去重
@@ -29,7 +31,34 @@
 - `scripts/telegram.py`：Telegram 推送
 - `config.example.toml`：配置示例
 
-## 常用命令
+## Claude Code Slash Command
+
+本仓库提供项目级 slash command：
+
+```text
+/blockbeats-monitor
+```
+
+常见调用方式：
+
+```text
+/blockbeats-monitor init-db
+/blockbeats-monitor ingest
+/blockbeats-monitor report
+/blockbeats-monitor report --output report.md
+/blockbeats-monitor send-telegram --text-file report.md
+/blockbeats-monitor run-daily
+```
+
+命令文件位置：
+
+```text
+.claude/commands/blockbeats-monitor.md
+```
+
+Claude Code 会把文件名 `blockbeats-monitor.md` 注册成 `/blockbeats-monitor`。如果新建完命令后当前会话里看不到，通常需要重新打开该仓库会话。
+
+## 对应 CLI 命令
 
 初始化数据库：
 
@@ -94,4 +123,7 @@ python3 /absolute/path/to/blockbeat_monitor/scripts/blockbeats_monitor.py --conf
 - 有可直接运行的脚本
 - 没有强依赖 OpenClaw runtime
 
-因此 Claude Code 使用这个项目时，重点是“运行命令”，不是“安装 skill”。
+因此 Claude Code 使用这个项目时，重点是：
+
+- 对用户暴露 `/blockbeats-monitor`
+- 底层执行 `scripts/blockbeats_monitor.py`
